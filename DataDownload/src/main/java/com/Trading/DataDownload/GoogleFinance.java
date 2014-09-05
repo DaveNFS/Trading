@@ -1,5 +1,10 @@
 package com.Trading.DataDownload;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+
 public class GoogleFinance {
 
 	// We first from a URL by substituting what's in the [] using this format:
@@ -20,14 +25,14 @@ public class GoogleFinance {
 	
 	
 	
-	private String URL; 
+	public String url; 
 	
 	
 	public String populateURL(int interval, int days, String ticker){
 		String url = null;		
 		// returns null if the input arguments are invalid
 		if(interval < 30){
-			// it doesn't work well for more than 2 values in a minute 
+			// it doesn't work well for more than 2 values per minute 
 			// advised to go with 60 or more
 			return null; 
 		}
@@ -45,5 +50,32 @@ public class GoogleFinance {
 		
 		return url; 
 	}
+	
+	public String getData(){
+		String output = null; 
+		if(this.url == null){
+			System.err.println("Populate the url first: call populateURL(int interval, int days, String ticker)");
+			return null;
+		}
+		try{
+			URL dataSource = new URL(this.url); 
+			URLConnection urlConnect = dataSource.openConnection(); 
+			BufferedReader in = new BufferedReader(new InputStreamReader(urlConnect.getInputStream(), "UTF-8"));
+			String inputLine; 
+			StringBuilder out = new StringBuilder();
+			while((inputLine = in.readLine()) != null){
+				out.append(inputLine);
+			}
+			in.close();
+			output = out.toString();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+		return output;
+	}
+	
 	
 }
