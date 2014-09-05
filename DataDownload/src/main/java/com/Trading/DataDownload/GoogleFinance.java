@@ -27,7 +27,7 @@ public class GoogleFinance {
 		String url = null;		
 		// returns null if the input arguments are invalid
 		if(interval < 30){
-			// it doesn't work well for more than 2 values in a minute 
+			// it doesn't work well for more than 2 values per minute 
 			// advised to go with 60 or more
 			return null; 
 		}
