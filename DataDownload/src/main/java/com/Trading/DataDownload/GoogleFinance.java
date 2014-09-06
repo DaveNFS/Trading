@@ -5,6 +5,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 public class GoogleFinance {
 
 	// We first from a URL by substituting what's in the [] using this format:
@@ -64,6 +67,7 @@ public class GoogleFinance {
 			String inputLine; 
 			StringBuilder out = new StringBuilder();
 			while((inputLine = in.readLine()) != null){
+				System.out.println(inputLine);
 				out.append(inputLine);
 			}
 			in.close();
@@ -76,6 +80,24 @@ public class GoogleFinance {
 		
 		return output;
 	}
+	
+	public String getDataTwo(){
+		String output = null; 
+		if(this.url == null){
+			System.err.println("Populate the url first: call populateURL(int interval, int days, String ticker)");
+			return null;
+		}
+		
+		try{
+			Document doc = Jsoup.connect("https://www.google.com/finance/getprices?i=60&p=5d&f=d,o,h,l,c,v&df=cpct&q=AAPL").get();
+			System.out.println("something" + doc.toString());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return output;
+	}
+	
 	
 	
 }
